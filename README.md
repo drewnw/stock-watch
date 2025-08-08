@@ -19,10 +19,11 @@ A Wall St. inspired ticker display board, right on your desktop. Color coded, li
 
 1. Copy absolute file path to ```main.py```
 2. Create a new shortcut on desktop
-3. Paste the path
-4. ⊞ Win + R
-5. Type "shell:startup"
-6. Copy that shortcut or drag it into the startup folder
+3. Find Python interpreter file location
+4. Format as "C:\Path\To\Python\python.exe" "C:\Path\To\Your\Project\main.py", and save it to the shortcut
+5. ⊞ Win + R
+6. Type "shell:startup"
+7. Copy that shortcut or drag it into the startup folder
 
 ## Personalization
 
