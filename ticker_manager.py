@@ -7,7 +7,7 @@ import sys
 # Cross-platform ticker file path
 TICKER_FILE = str(config_path("tickers.json"))
 
-# Optional: simple font choices (Segoe on Win, DejaVu on Linux)
+# Fonts
 TITLE_FONT = ("Segoe UI", 16, "bold") if sys.platform.startswith("win") else ("DejaVu Sans", 16, "bold")
 BTN_FONT   = ("Segoe UI", 12)         if sys.platform.startswith("win") else ("DejaVu Sans", 12)
 LIST_FONT  = ("Courier New", 14)      if sys.platform.startswith("win") else ("DejaVu Sans Mono", 14)
@@ -21,7 +21,6 @@ class TickerManager:
         self.window.configure(bg="black")
         self.window.resizable(False, False)
 
-        # Make modal-ish
         self.window.transient(parent)
         self.window.grab_set()
         self.window.focus_set()

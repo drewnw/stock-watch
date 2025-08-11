@@ -1,21 +1,18 @@
-
 import sys
 import tkinter as tk
 
 def configure_root_for_platform(root: tk.Tk, bar_height: int = 30) -> None:
-    """Configure a borderless ticker bar that sits at the bottom.
-    Tries to stay below normal windows on Linux by lowering periodically.
-    """
+    # Linux: do NOT force 'keep lowered' so the bar remains clickable
     root.overrideredirect(True)
     root.configure(bg="black")
 
     screen_w = root.winfo_screenwidth()
     screen_h = root.winfo_screenheight()
-    x_pos, y_pos = 0, screen_h - bar_height - 40  # small offset from screen bottom
+    x_pos, y_pos = 0, screen_h - bar_height - 40
     root.geometry(f"{screen_w}x{bar_height}+{x_pos}+{y_pos}")
 
     if sys.platform.startswith("win"):
-        # On Windows you can still choose to keep it not-topmost
+        # For Windows, keep it non-topmost, nudge to bottom of stack once
         try:
             import ctypes
             hwnd = root.winfo_id()
@@ -27,22 +24,24 @@ def configure_root_for_platform(root: tk.Tk, bar_height: int = 30) -> None:
             root.attributes("-topmost", False)
         except tk.TclError:
             pass
+
     elif sys.platform.startswith("linux"):
+        # For Linux, keep borderless, don't auto-lower so it's clickable
         try:
-            # Some WMs honor these (X11). On Wayland they may be ignored.
             root.attributes("-type", "dock")
+        except tk.TclError:
+            pass
+        try:
             root.attributes("-topmost", False)
         except tk.TclError:
             pass
+        try:
+            root.lift()
+        except Exception:
+            pass
 
-        def keep_lowered():
-            try:
-                root.lower()
-            finally:
-                root.after(1500, keep_lowered)  # re-assert occasionally
-        keep_lowered()
     else:
-        # macOS and others: play it safe
+        # For macOS/others: best effort non-topmost
         try:
             root.attributes("-topmost", False)
         except tk.TclError:

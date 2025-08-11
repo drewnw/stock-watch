@@ -3,8 +3,7 @@ from pathlib import Path
 try:
     from appdirs import user_data_dir
 except Exception:
-    # Fallback if appdirs isn't installed; store next to script.
-    user_data_dir = None  # type: ignore
+    user_data_dir = None
 
 APP_NAME = "StockWatch"
 APP_AUTHOR = "You"
